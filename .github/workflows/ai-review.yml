@@ -3,18 +3,22 @@ name: AI PR Review
 on:
   pull_request:
     types: [opened, synchronize, ready_for_review]
+  issue_comment:
+    types: [created]
+  pull_request_review_comment:
+    types: [created]
 
 permissions:
   contents: read
   pull-requests: write
-  issues: read
+  issues: write
 
 jobs:
   ai-review:
-    uses: code-guard-demo/app-central/.github/workflows/reusable-review.yml@v0.9
+    uses: code-guard-demo/app-central/.github/workflows/reusable-review.yml@v0.10
     with:
       provider: "claude"
-      central_ref: "v0.9"
+      central_ref: "v0.10"
       ci_command: "npm run lint && npm test"
     secrets:
       ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}

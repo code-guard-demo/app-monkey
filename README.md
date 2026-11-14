@@ -18,6 +18,24 @@ Current utilities in `sum.js`:
 
 ## Workflows & Secrets
 
+```mermaid
+flowchart TD
+    DEV["GitHub Events (PR / Comment / Dispatch)"] --> W1[".github/workflows/ai-review.yml"]
+    DEV --> W2[".github/workflows/eval.yml (workflow_dispatch)"]
+
+    SEC["Repo Secrets (ANTHROPIC_API_KEY, GEMINI_API_KEY, SKILLS_REPO_TOKEN)"] -.-> W1
+    SEC -.-> W2
+
+    W1 -- "workflow_call @v1.2" --> AC["code-guard-demo/app-central (reusable-review.yml)"]
+    W2 -- "checkout main via SKILLS_REPO_TOKEN" --> EV["eval/run-eval.js + scripts/test (27 unit tests)"]
+
+    AC --> OUT1["Silent Squash Merge (clean & confidence > 80%)"]
+    AC --> OUT2["Escalate Comment (@org/reviewer-oncall / @org/db-admins)"]
+    AC --> OUT3["Inline Review + Sticky Summary (CI fail / BLOCKER)"]
+    AC --> OUT4["In-Thread Reply (@ai-review)"]
+    EV --> OUT5["Precision / Recall / F1 / Cost Summary"]
+```
+
 - **`.github/workflows/ai-review.yml`** — Calls `code-guard-demo/app-central/.github/workflows/reusable-review.yml@v1.2` on `pull_request`, `issue_comment`, and `pull_request_review_comment`. Runs `npm run lint && npm test` in Stage-1 CI, routes findings cleanly, silently squash-merges PRs when confidence `> 80%`, and escalates uncertain PRs to `@org/reviewer-oncall` / `@org/db-admins`.
 - **`.github/workflows/eval.yml`** — Manual `workflow_dispatch` workflow checking out `app-central` to run unit tests (`27/27`) and the 10-case live Claude vs Gemini eval suite (`eval/run-eval.js`).
 
@@ -36,12 +54,3 @@ Required repository secrets:
 | Provider equivalence | Claude (`PR #11`) and Gemini (`PR #12`) both flagged `sum.js:4` (`BLOCKER`) and `sum.js:11` (`WARNING`) using identical inputs/outputs |
 | Hardening | Lockfile ignore + smallest-first `500`-line diff truncation (`PR #19`), prompt-injection resistance (`PR #20`), SHA-pinned actions, `--disallowedTools "Bash"` |
 | Confidence gate (`>80%`) | Clean `clamp()` addition (`PR #21`) silently auto-merged with `0` comments (`95%`); truncated 600-line addition (`PR #22`) stayed `OPEN` and escalated (`50%`, cc `@org/reviewer-oncall`) |
-
-## Repository Protection Policy
-
-This repository is locked down so **only `@aethv`** can push commits, open/merge pull requests, or interact with PR/issue threads:
-- GitHub repository interaction limits (`collaborators_only`) block non-collaborators from opening PRs/issues or commenting
-- Branch protection on `main` restricts push access strictly to `aethv` (`block_creations: true`, no force pushes or deletions)
-- Active repository ruleset across all branches (`~ALL`) allows only organization admins (`@aethv`) to bypass branch creation/update/deletion rules
-- Actions permissions require commit-SHA pinning (`sha_pinning_required: true`)
-- Workflow gate (`allowed_user: "aethv"`) automatically closes unauthorized PRs and ignores comments from non-owners

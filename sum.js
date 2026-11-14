@@ -12,3 +12,8 @@ function getName(user) {
 }
 
 module.exports = { average, getName };
+
+function max(arr) {
+  return Math.max(...arr);
+}
+module.exports.max = max;

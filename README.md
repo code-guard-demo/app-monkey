@@ -40,7 +40,7 @@ Required repository secrets:
 ## Repository Protection Policy
 
 This repository is locked down so **only `@aethv`** can push commits, open/merge pull requests, or interact with PR/issue threads:
-- GitHub org interaction limits (`collaborators_only`) block non-collaborators from opening PRs/issues or commenting
+- GitHub repository interaction limits (`collaborators_only`) block non-collaborators from opening PRs/issues or commenting
 - Branch protection on `main` restricts push access strictly to `aethv` (`block_creations: true`, no force pushes or deletions)
 - Active repository ruleset across all branches (`~ALL`) allows only organization admins (`@aethv`) to bypass branch creation/update/deletion rules
 - Actions permissions require commit-SHA pinning (`sha_pinning_required: true`)

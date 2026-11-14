@@ -11,4 +11,9 @@ function getName(user) {
   return user?.profile?.name?.toUpperCase();
 }
 
-module.exports = { average, getName };
+function clamp(val, min, max) {
+  if (min > max) throw new RangeError('min must be <= max');
+  return Math.min(Math.max(val, min), max);
+}
+
+module.exports = { average, getName, clamp };

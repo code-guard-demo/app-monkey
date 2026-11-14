@@ -1,0 +1,9 @@
+{
+  "name": "app-monkey",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "lint": "node --check sum.js",
+    "test": "node --test"
+  }
+}

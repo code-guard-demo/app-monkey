@@ -19,6 +19,7 @@ jobs:
     with:
       provider: "claude"
       central_ref: "v1.0"
+      simulate_fork: true
       ci_command: "npm run lint && npm test"
     secrets:
       ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}

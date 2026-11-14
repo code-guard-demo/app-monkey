@@ -11,10 +11,10 @@ permissions:
 
 jobs:
   ai-review:
-    uses: code-guard-demo/app-central/.github/workflows/reusable-review.yml@v0.7
+    uses: code-guard-demo/app-central/.github/workflows/reusable-review.yml@v0.8
     with:
       provider: "gemini"
-      central_ref: "v0.7"
+      central_ref: "v0.8"
       ci_command: "npm run lint && npm test"
     secrets:
       ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}

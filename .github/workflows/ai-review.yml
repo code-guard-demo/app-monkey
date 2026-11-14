@@ -11,8 +11,10 @@ permissions:
 
 jobs:
   ai-review:
-    uses: code-guard-demo/app-central/.github/workflows/reusable-review.yml@v0.3
+    uses: code-guard-demo/app-central/.github/workflows/reusable-review.yml@v0.4
     with:
       provider: "claude"
+      central_ref: "v0.4"
     secrets:
       ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+      SKILLS_REPO_TOKEN: ${{ secrets.SKILLS_REPO_TOKEN }}

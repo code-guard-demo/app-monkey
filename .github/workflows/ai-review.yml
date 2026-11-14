@@ -11,7 +11,7 @@ permissions:
 
 jobs:
   ai-review:
-    uses: code-guard-demo/app-central/.github/workflows/reusable-review.yml@v0.1
+    uses: code-guard-demo/app-central/.github/workflows/reusable-review.yml@v0.2
     with:
       provider: "claude"
     secrets:

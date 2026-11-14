@@ -9,16 +9,16 @@ on:
     types: [created]
 
 permissions:
-  contents: read
+  contents: write
   pull-requests: write
   issues: write
 
 jobs:
   ai-review:
-    uses: code-guard-demo/app-central/.github/workflows/reusable-review.yml@v1.0
+    uses: code-guard-demo/app-central/.github/workflows/reusable-review.yml@v1.1
     with:
       provider: "claude"
-      central_ref: "v1.0"
+      central_ref: "v1.1"
       ci_command: "npm run lint && npm test"
     secrets:
       ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}

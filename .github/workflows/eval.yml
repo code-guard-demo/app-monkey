@@ -1,0 +1,33 @@
+name: Eval AI PR Reviewer
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  eval:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout app-central
+        uses: actions/checkout@v4
+        with:
+          repository: code-guard-demo/app-central
+          ref: main
+          token: ${{ secrets.SKILLS_REPO_TOKEN }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Run unit tests
+        run: npm test
+
+      - name: Run live provider eval
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: |
+          node eval/run-eval.js
+          cat eval-report.md >> "$GITHUB_STEP_SUMMARY"

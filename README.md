@@ -18,6 +18,10 @@ Current utilities in `sum.js`:
 
 ## Workflows & Secrets
 
+![Architecture Diagram](./docs/architecture.drawio.svg)
+
+> Editable source: [docs/architecture.drawio](./docs/architecture.drawio) (open in [app.diagrams.net](https://app.diagrams.net/) or the VS Code Draw.io extension).
+
 ```mermaid
 flowchart TD
     DEV["GitHub Events (PR / Comment / Dispatch)"] --> W1[".github/workflows/ai-review.yml"]

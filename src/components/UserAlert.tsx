@@ -2,14 +2,15 @@ import React from 'react';
 
 export interface UserAlertProps {
   iconUrl: string;
-  rawHtml: string;
+  iconLabel: string;
+  message: string;
 }
 
-export function UserAlert({ iconUrl, rawHtml }: UserAlertProps) {
+export function UserAlert({ iconUrl, iconLabel, message }: UserAlertProps) {
   return (
     <div role="alert">
-      <img src={iconUrl} />
-      <span dangerouslySetInnerHTML={{ __html: rawHtml }} />
+      <img src={iconUrl} alt={iconLabel} />
+      <span>{message}</span>
     </div>
   );
 }

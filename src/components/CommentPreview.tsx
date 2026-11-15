@@ -1,15 +1,16 @@
 import React from 'react';
 
 export interface CommentPreviewProps {
+  authorName: string;
   authorAvatarUrl: string;
-  rawHtmlComment: string;
+  commentText: string;
 }
 
-export function CommentPreview({ authorAvatarUrl, rawHtmlComment }: CommentPreviewProps) {
+export function CommentPreview({ authorName, authorAvatarUrl, commentText }: CommentPreviewProps) {
   return (
     <section>
-      <img src={authorAvatarUrl} />
-      <div dangerouslySetInnerHTML={{ __html: rawHtmlComment }} />
+      <img src={authorAvatarUrl} alt={`${authorName} avatar`} />
+      <p>{commentText}</p>
     </section>
   );
 }
